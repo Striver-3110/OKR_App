@@ -7,7 +7,7 @@ type KeyResultsType = {
 }
 
 type ObjectiveType = {
-  _id:number,
+  id:string,
   title: string,
   keyResults: KeyResultsType[]
 }

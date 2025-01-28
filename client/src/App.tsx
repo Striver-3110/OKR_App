@@ -13,7 +13,7 @@ import './App.css'
 function App() {
 
   const [objectives, setObjectives] = useState<ObjectiveType[]>([]);
-  const [currentObjectiveIndex, setCurrentObjectiveIndex] = useState<number>(0)
+  const [currentObjectiveId, setCurrentObjectiveId] = useState<string>("")
 
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -21,7 +21,7 @@ function App() {
 
   const addKeyResult = async (keyResult: KeyResultsType) => {
     setIsOpen(prev => !prev)
-    await Toast(addKeyResultToDatabase(currentObjectiveIndex, keyResult),{
+    await Toast(addKeyResultToDatabase(currentObjectiveId, keyResult),{
       loading: 'Loading',
       success:'successfully added kr?!',
       error:"error while adding kr"
@@ -29,18 +29,21 @@ function App() {
     const responseObjectives = await Toast(getOkrsFromDatabase());
 
     setObjectives(responseObjectives)
-    // objectives[currentObjectiveIndex].keyResults.push(keyResult)
+    // objectives[currentObjectiveId].keyResults.push(keyResult)
     // setObjectives([...objectives])
     // setIsOpen(prev => !prev)
   }
 
+  const getAllOkrs =async () => {
+    setIsLoading(prev => !prev)
+    const responseOkrsFromDatabase = await Toast(getOkrsFromDatabase());
+    // console.log(responseOkrsFromDatabase)
+    setObjectives([...responseOkrsFromDatabase])
+    setIsLoading(prev => !prev)
+  }
+
   useEffect(() => {
-    (async () => {
-      setIsLoading(prev => !prev)
-      const responseOkrsFromDatabase = await Toast(getOkrsFromDatabase());
-      setObjectives([...responseOkrsFromDatabase])
-      setIsLoading(prev => !prev)
-    })()
+    getAllOkrs()
   }, [])
 
 
@@ -52,8 +55,8 @@ function App() {
         setObjectives={setObjectives}
         objectives={objectives}
       />
-      <OkrDisplay objectives={objectives} setIsOpen={setIsOpen}
-                  setCurrentObjectiveIndex={setCurrentObjectiveIndex} isLoading={isLoading}/>
+      <OkrDisplay getAllOkrs={getAllOkrs} objectives={objectives} setIsOpen={setIsOpen}
+                  setCurrentObjectiveId={setCurrentObjectiveId} isLoading={isLoading}/>
       {isOpen && <AddKrModal addKeyResult={addKeyResult} setIsOpen={setIsOpen}/>}
       <Toaster/>
     </div>

@@ -1,28 +1,39 @@
 import {ObjectiveType} from "../types/OKRTypes.ts";
 import {IoMdAdd} from "react-icons/io";
 import React from "react";
+import {deleteOkrFromDatabase} from "../db/okr-store";
 
 type OKRDisplayProps = {
   objectives: ObjectiveType[],
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  setCurrentObjectiveIndex:React.Dispatch<React.SetStateAction<number>>,
-  isLoading:boolean,
+  setCurrentObjectiveId: React.Dispatch<React.SetStateAction<string>>,
+  isLoading: boolean,
+  getAllOkrs: () => void,
 }
 
+
 export const OkrDisplay = ({
+                             getAllOkrs,
                              objectives,
                              setIsOpen,
-                             setCurrentObjectiveIndex,
+                             setCurrentObjectiveId,
                              isLoading
                            }: OKRDisplayProps) => {
-  const handleOpenModal = (index:number) => {
+  const handleOpenModal = (id: string) => {
     setIsOpen((prev) => !prev)
-    setCurrentObjectiveIndex(index);
+    setCurrentObjectiveId(id);
   }
+  const handleDeleteOkr = async (id: string) => {
+    console.log(id)
+    await deleteOkrFromDatabase(id);
+    getAllOkrs();
+  }
+
 
   return (
     <>
-      <div className="border-2 w-[55%] h-full overflow-y-auto border-gray-100 bg-gray-50 rounded-lg shadow-md px-6 py-6 flex flex-col gap-12 mb-12">
+      <div
+        className="border-2 w-[55%] h-full overflow-y-auto border-gray-100 bg-gray-50 rounded-lg shadow-md px-6 py-6 flex flex-col gap-12 mb-12">
         <h1 className="text-2xl font-bold text-gray-800 ">Objectives</h1>
         {!isLoading && objectives.length > 0 ? (
           objectives.map((objective, index) => (
@@ -31,10 +42,11 @@ export const OkrDisplay = ({
                 className="pl-8 py-4 bg-blue-100 border-b-2 font-semibold text-xl text-gray-800 rounded-t-lg">
                 {objective.title}
               </div>
+              <button onClick={() => handleDeleteOkr(objective.id)}>delete</button>
               <div className="text-lg text-gray-700 font-medium flex justify-between px-10 py-2 ">
                 <div className="">Key Results</div>
                 <button className="bg-slate-500 px-2 py-1 rounded-md text-white flex items-center justify-center gap-2"
-                        onClick={()=>handleOpenModal(index)}
+                        onClick={() => handleOpenModal(objective.id)}
                 >
                   <span><IoMdAdd/></span>
                 </button>
@@ -51,7 +63,7 @@ export const OkrDisplay = ({
                           <h5 className="text-lg font-bold leading-none uppercase text-gray-900">
                             {index + 1}. {keyResult.title}
                           </h5>
-                          <button ></button>
+                          <button></button>
                         </div>
                         <div className="flow-root text-sm">
                           <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-300">

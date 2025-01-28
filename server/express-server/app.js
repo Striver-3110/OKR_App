@@ -13,6 +13,10 @@ app.get("/objectives",(req,res)=>{
     res.json(objectives.fetchAll())
 })
 
+app.get('/',(req,res)=>{
+    return " hello parth"
+})
+
 app.listen(PORT, ()=>{
     console.log('listening on port: ', PORT)
 })

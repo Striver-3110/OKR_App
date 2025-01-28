@@ -1,15 +1,9 @@
 import {KeyResultsType, ObjectiveType} from "../types/OKRTypes.ts";
+import {v4 as uuid} from 'uuid'
 
-
-let dbIndex = 1;
-
-type OKRType = ObjectiveType & {
-  _id: number
-}
-
-const initialOkrs: OKRType[] = [
+const initialOkrs: ObjectiveType[] = [
   {
-    _id: dbIndex++,
+    id: uuid(),
     title: "obj1",
     keyResults:[
       {
@@ -44,26 +38,39 @@ const initialOkrs: OKRType[] = [
   }
 ]
 
-const db = new Map<number, OKRType>();
+const db = new Map<string, ObjectiveType>();
 
-initialOkrs.forEach((objective: OKRType, index: number)=>{
-  db.set(index, objective)
+initialOkrs.forEach((objective: ObjectiveType)=>{
+  db.set(objective.id, objective)
 })
+
+export function deleteOkrFromDatabase(id: string): Promise<void>{
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      db.delete(id)
+      console.log(db)
+      resolve()
+    },3000)
+  })
+}
+
 
 export function insertOkrToDatabase(okr: ObjectiveType): Promise<ObjectiveType[]> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      db.set(dbIndex, {...okr, _id: dbIndex++})
+      const id = uuid()
+      db.set(id, {...okr, id: id})
       resolve(Array.from(db.values()))
     },3000)
   })
 }
 
-export function addKeyResultToDatabase(index:number, kr: KeyResultsType):Promise<ObjectiveType[]>{
+export function addKeyResultToDatabase(id:string, kr: KeyResultsType):Promise<ObjectiveType[]>{
   // set timeout here
   return new Promise((resolve)=>{
     setTimeout(()=>{
-      db.get(index)?.keyResults.push(kr);
+      db.get(id)?.keyResults.push(kr);
+      console.log(db)
       resolve(Array.from(db.values()))
     },3000)
   })
