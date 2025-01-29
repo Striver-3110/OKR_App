@@ -9,15 +9,16 @@ type OKRDisplayProps = {
   setCurrentObjectiveId: React.Dispatch<React.SetStateAction<string>>,
   isLoading: boolean,
   getAllOkrs: () => void,
+  setObjectiveToBeUpdated: React.Dispatch<React.SetStateAction<ObjectiveType | undefined>>
 }
-
 
 export const OkrDisplay = ({
                              getAllOkrs,
                              objectives,
                              setIsOpen,
                              setCurrentObjectiveId,
-                             isLoading
+                             isLoading,
+                             setObjectiveToBeUpdated
                            }: OKRDisplayProps) => {
   const handleOpenModal = (id: string) => {
     setIsOpen((prev) => !prev)
@@ -29,20 +30,24 @@ export const OkrDisplay = ({
     getAllOkrs();
   }
 
+  const handleUpdateOkr = async (objective: ObjectiveType) =>{
+    setObjectiveToBeUpdated(objective)
+  }
 
   return (
     <>
       <div
-        className="border-2 w-[55%] h-full overflow-y-auto border-gray-100 bg-gray-50 rounded-lg shadow-md px-6 py-6 flex flex-col gap-12 mb-12">
+        className="border-2 w-[55%] h-full overflow-y-auto border-gray-100 bg-gray-50 rounded-lg shadow-md px-6  flex flex-col gap-12 mb-12">
         <h1 className="text-2xl font-bold text-gray-800 ">Objectives</h1>
         {!isLoading && objectives.length > 0 ? (
           objectives.map((objective, index) => (
             <div key={index} className="border pb-10 border-gray-300 bg-white flex flex-col gap-4 rounded-lg shadow-sm">
               <div
-                className="pl-8 py-4 bg-blue-100 border-b-2 font-semibold text-xl text-gray-800 rounded-t-lg">
+                className="pl-8 py-4 top-0 sticky bg-blue-100 border-b-2 font-semibold text-xl text-gray-800 rounded-t-lg">
                 {objective.title}
               </div>
               <button onClick={() => handleDeleteOkr(objective.id)}>delete</button>
+              <button onClick={() => handleUpdateOkr(objective)}>update</button>
               <div className="text-lg text-gray-700 font-medium flex justify-between px-10 py-2 ">
                 <div className="">Key Results</div>
                 <button className="bg-slate-500 px-2 py-1 rounded-md text-white flex items-center justify-center gap-2"

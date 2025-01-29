@@ -14,6 +14,8 @@ function App() {
 
   const [objectives, setObjectives] = useState<ObjectiveType[]>([]);
   const [currentObjectiveId, setCurrentObjectiveId] = useState<string>("")
+  const [objectiveToBeUpdated, setObjectiveToBeUpdated] = useState<ObjectiveType | undefined>(undefined)
+
 
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -49,13 +51,13 @@ function App() {
 
   return (
 
-    <div className="px-6 pt-3 min-w-full flex  gap-4">
+    <div className="px-6 pt-3 min-w-full h-screen flex  overflow-y-hidden gap-4">
       <OkrInputForm
+        objectiveToBeUpdated={objectiveToBeUpdated}
         setIsLoading={setIsLoading}
         setObjectives={setObjectives}
-        objectives={objectives}
       />
-      <OkrDisplay getAllOkrs={getAllOkrs} objectives={objectives} setIsOpen={setIsOpen}
+      <OkrDisplay setObjectiveToBeUpdated={setObjectiveToBeUpdated} getAllOkrs={getAllOkrs} objectives={objectives} setIsOpen={setIsOpen}
                   setCurrentObjectiveId={setCurrentObjectiveId} isLoading={isLoading}/>
       {isOpen && <AddKrModal addKeyResult={addKeyResult} setIsOpen={setIsOpen}/>}
       <Toaster/>
