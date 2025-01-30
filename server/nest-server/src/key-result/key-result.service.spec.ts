@@ -108,4 +108,25 @@ describe('KeyResultService', () => {
       expect(response).toEqual([{ ...mockKeyResults[0], id: '1' }]);
     });
   });
+  describe('delete()', () => {
+    it('should call Prisma delete with given key key result id', async () => {
+      await keyResultService.delete('1');
+      expect(prismaService.keyResult.delete).toHaveBeenCalledWith({
+        where: {
+          id: '1',
+        },
+      });
+    });
+    it('should return the the count of deleted key result', async () => {
+      prismaService.keyResult.delete.mockResolvedValue({
+        ...mockKeyResults[0],
+        id: '1',
+      });
+      const response = await keyResultService.delete('1');
+      expect(response).toEqual({
+        ...mockKeyResults[0],
+        id: '1',
+      });
+    });
+  });
 });
