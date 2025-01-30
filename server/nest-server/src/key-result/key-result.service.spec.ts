@@ -31,7 +31,7 @@ describe('KeyResultService', () => {
       currentValue: 10,
       finalValue: 100,
       metric: '%',
-      objectiveId: 1,
+      objectiveId: '1',
     },
   ];
 
