@@ -9,7 +9,7 @@ describe('KeyResultService', () => {
 
   prismaService = mockDeep<PrismaService>();
 
-  (async () => {
+  beforeAll(async () => {
     const module = await Test.createTestingModule({
       // Set up most of the testing module as we normally would.
       providers: [
@@ -23,7 +23,7 @@ describe('KeyResultService', () => {
 
     prismaService = module.get(PrismaService);
     keyResultService = module.get(KeyResultService);
-  })();
+  });
   const mockKeyResults = [
     {
       title: 'title 1',
@@ -86,6 +86,26 @@ describe('KeyResultService', () => {
       });
       const response = await keyResultService.findOne('1');
       expect(response).toEqual({ ...mockKeyResults[0], id: '1' });
+    });
+  });
+  describe('findByObjectiveId()', () => {
+    it('should call Prisma findMany with given key objective id', async () => {
+      await keyResultService.findByObjectiveId('1');
+      expect(prismaService.keyResult.findMany).toHaveBeenCalledWith({
+        where: {
+          objectiveId: '1',
+        },
+      });
+    });
+    it('should return the keyResults with given objective id', async () => {
+      prismaService.keyResult.findMany.mockResolvedValue([
+        {
+          ...mockKeyResults[0],
+          id: '1',
+        },
+      ]);
+      const response = await keyResultService.findByObjectiveId('1');
+      expect(response).toEqual([{ ...mockKeyResults[0], id: '1' }]);
     });
   });
 });
