@@ -15,9 +15,9 @@ export class KeyResultController {
   constructor(private readonly keyResultService: KeyResultService) {}
 
   @Post('/')
-  create(@Body() keyResults: CreateKeyResultDto[]) {
+  createAll(@Body() keyResults: CreateKeyResultDto[]) {
     // console.log(keyResults);
-    return this.keyResultService.create(keyResults);
+    return this.keyResultService.createAll(keyResults);
   }
 
   @Get('/')

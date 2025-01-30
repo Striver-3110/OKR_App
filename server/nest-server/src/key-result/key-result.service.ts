@@ -5,13 +5,21 @@ import { PrismaService } from '../prisma/prisma.service';
 export class KeyResultService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(keyResults) {
+  createAll(keyResults) {
     // console.log(keyResults);
     return this.prismaService.keyResult.createMany({ data: keyResults });
   }
 
   findAll() {
     return this.prismaService.keyResult.findMany();
+  }
+
+  findOne(id: string) {
+    return this.prismaService.keyResult.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
 
   findByObjectiveId(objectiveId: string) {
