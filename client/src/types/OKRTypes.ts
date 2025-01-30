@@ -1,4 +1,6 @@
 type KeyResultsType = {
+  id?: string,
+  objectiveId?: string,
   title: string,
   initialValue: number,
   finalValue: number,

@@ -50,7 +50,6 @@ function App() {
 
 
   return (
-
     <div className="px-6 pt-3 min-w-full h-screen flex  overflow-y-hidden gap-4">
       <OkrInputForm
         objectiveToBeUpdated={objectiveToBeUpdated}

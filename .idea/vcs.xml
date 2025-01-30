@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/server/nest-server" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/server/nest-server/hello-prisma" vcs="Git" />
   </component>
 </project>

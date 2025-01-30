@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Objective {
+  id    String     @id @default(uuid())
+  title String
+  key_result KeyResult[]
+}
+
+model KeyResult {
+  id String     @id @default(uuid())
+  objectiveId String
+  title String
+  initialValue Int
+  currentValue Int
+  finalValue Int
+  metric String
+  objective Objective @relation(fields: [objectiveId], references: [id])
+}
+
+
