@@ -16,17 +16,16 @@ export class KeyResultController {
 
   @Post('/')
   createAll(@Body() keyResults: CreateKeyResultDto[]) {
-    // console.log(keyResults);
     return this.keyResultService.createAll(keyResults);
   }
 
-  @Get('/')
+  @Get('/by-objective')
   findByObjectiveId(@Body('objectiveId') objectiveId: string) {
     return this.keyResultService.findByObjectiveId(objectiveId);
   }
 
   @Get('/')
-  findMany() {
+  findAll() {
     return this.keyResultService.findAll();
   }
 
