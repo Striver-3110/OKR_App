@@ -37,7 +37,7 @@ export const OkrDisplay = ({
   return (
     <>
       <div
-        className="border-2 w-[55%] h-full overflow-y-auto border-gray-100 bg-gray-50 rounded-lg shadow-md px-6  flex flex-col gap-12 mb-12">
+        className="border-2 w-[55%] h-full overflow-y-scroll border-gray-100 bg-gray-50 rounded-lg shadow-md px-6  flex flex-col gap-12 mb-12">
         <h1 className="text-2xl font-bold text-gray-800 ">Objectives</h1>
         {!isLoading && objectives.length > 0 ? (
           objectives.map((objective, index) => (

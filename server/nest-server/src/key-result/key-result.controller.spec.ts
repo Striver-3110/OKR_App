@@ -33,6 +33,8 @@ describe('KeyResultController', () => {
       objectiveId: '1',
     },
   ];
+  const mockObjectiveId = '1';
+  const mockKeyResultId = '123';
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
@@ -54,6 +56,61 @@ describe('KeyResultController', () => {
       expect(response).toEqual({
         count: 1,
       });
+    });
+  });
+  describe('findByObjectiveId', () => {
+    it('should be defined', () => {
+      expect(controller.findByObjectiveId).toBeDefined();
+    });
+
+    it('should call findByObjectiveId method of keyResultService with given objectiveId', async () => {
+      await controller.findByObjectiveId(mockObjectiveId);
+      expect(service.findByObjectiveId).toHaveBeenCalledWith(mockObjectiveId);
+    });
+
+    it('should return key results for the given objectiveId', async () => {
+      const mockResults = [{ id: '1', ...mockKeyResults[0] }];
+      service.findByObjectiveId.mockResolvedValue(mockResults);
+      const response = await controller.findByObjectiveId(mockObjectiveId);
+      expect(response).toEqual(mockResults);
+    });
+  });
+
+  describe('findAll', () => {
+    it('should be defined', () => {
+      expect(controller.findAll).toBeDefined();
+    });
+
+    it('should call findAll method of keyResultService', async () => {
+      await controller.findAll();
+      expect(service.findAll).toHaveBeenCalled();
+    });
+
+    it('should return all key results', async () => {
+      const mockResults = [{ id: '1', ...mockKeyResults[0] }];
+      service.findAll.mockResolvedValue(mockResults);
+      const response = await controller.findAll();
+      expect(response).toEqual(mockResults);
+    });
+  });
+
+  describe('delete', () => {
+    it('should be defined', () => {
+      expect(controller.delete).toBeDefined();
+    });
+
+    it('should call delete method of keyResultService with given keyResultId', async () => {
+      await controller.delete(mockKeyResultId);
+      expect(service.delete).toHaveBeenCalledWith(mockKeyResultId);
+    });
+
+    it('should return confirmation of deletion', async () => {
+      service.delete.mockResolvedValue({
+        ...mockKeyResults[0],
+        id: mockKeyResultId,
+      });
+      const response = await controller.delete(mockKeyResultId);
+      expect(response).toEqual({ ...mockKeyResults[0], id: mockKeyResultId });
     });
   });
 });

@@ -9,7 +9,6 @@ import {Toast} from './components/Toast.ts'
 import './App.css'
 
 
-
 function App() {
 
   const [objectives, setObjectives] = useState<ObjectiveType[]>([]);
@@ -17,16 +16,16 @@ function App() {
   const [objectiveToBeUpdated, setObjectiveToBeUpdated] = useState<ObjectiveType | undefined>(undefined)
 
 
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false)
 
   const addKeyResult = async (keyResult: KeyResultsType) => {
     setIsOpen(prev => !prev)
-    await Toast(addKeyResultToDatabase(currentObjectiveId, keyResult),{
+    await Toast(addKeyResultToDatabase(
+      currentObjectiveId, keyResult), {
       loading: 'Loading',
-      success:'successfully added kr?!',
-      error:"error while adding kr"
+      success: 'successfully added kr?!',
+      error: "error while adding kr"
     })
     const responseObjectives = await Toast(getOkrsFromDatabase());
 
@@ -36,9 +35,10 @@ function App() {
     // setIsOpen(prev => !prev)
   }
 
-  const getAllOkrs =async () => {
+  const getAllOkrs = async () => {
     setIsLoading(prev => !prev)
     const responseOkrsFromDatabase = await Toast(getOkrsFromDatabase());
+    console.log(responseOkrsFromDatabase)
     // console.log(responseOkrsFromDatabase)
     setObjectives([...responseOkrsFromDatabase])
     setIsLoading(prev => !prev)
@@ -50,18 +50,27 @@ function App() {
 
 
   return (
-    <div className="px-6 pt-3 min-w-full h-screen flex  overflow-y-hidden gap-4">
+    <div className="w-screen h-screen flex  overflow-y-hidden ">
+
       <OkrInputForm
         objectiveToBeUpdated={objectiveToBeUpdated}
         setIsLoading={setIsLoading}
         setObjectives={setObjectives}
       />
-      <OkrDisplay setObjectiveToBeUpdated={setObjectiveToBeUpdated} getAllOkrs={getAllOkrs} objectives={objectives} setIsOpen={setIsOpen}
-                  setCurrentObjectiveId={setCurrentObjectiveId} isLoading={isLoading}/>
-      {isOpen && <AddKrModal addKeyResult={addKeyResult} setIsOpen={setIsOpen}/>}
+      <OkrDisplay
+        setObjectiveToBeUpdated={setObjectiveToBeUpdated}
+        getAllOkrs={getAllOkrs}
+        objectives={objectives}
+        setIsOpen={setIsOpen}
+        setCurrentObjectiveId={setCurrentObjectiveId}
+        isLoading={isLoading}/>
+      {isOpen &&
+          <AddKrModal
+              addKeyResult={addKeyResult}
+              setIsOpen={setIsOpen}/>}
       <Toaster/>
     </div>
   );
 }
 
-export default App ;
+export default App;
