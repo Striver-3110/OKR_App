@@ -12,28 +12,28 @@ const initialOkrs: ObjectiveType[] = [
         initialValue: 0,
         currentValue: 0,
         finalValue: 0,
-        metrics: ""
+        metric: ""
       },
       {
         title: "ewrewrwe",
         initialValue: 0,
         currentValue: 0,
         finalValue: 0,
-        metrics: ""
+        metric: ""
       },
       {
         title: "asdasdasd",
         initialValue: 0,
         currentValue: 0,
         finalValue: 0,
-        metrics: ""
+        metric: ""
       },
       {
         title: "sadasdas",
         initialValue: 0,
         currentValue: 0,
         finalValue: 0,
-        metrics: ""
+        metric: ""
       },
     ]
   }
@@ -45,26 +45,50 @@ initialOkrs.forEach((objective: ObjectiveType) => {
   db.set(objective.id, objective)
 })
 
-export function deleteOkrFromDatabase(id: string): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      db.delete(id)
-      console.log(db)
-      resolve()
-    }, 3000)
+const HEADER = {
+  headers: {"Content-Type": 'application/json'}
+}
+
+export async function deleteOkrFromDatabase(objective: ObjectiveType): Promise<void> {
+  objective.keyResults.map(async (kr) => {
+    await axios.delete('http://localhost:3000/key-result', {data: {id: kr.id}})
   })
+
+  const response = await axios.delete('http://localhost:3000/objective', {data: {objectiveId: objective.id}})
+  console.log({response})
+  // return new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     db.delete(id)
+  //     console.log(db)
+  //     resolve()
+  //   }, 3000)
+  // })
 }
 
 
-export function insertOkrToDatabase(okr: ObjectiveType): Promise<ObjectiveType[]> {
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const id = uuid()
-      db.set(id, {...okr, id: id})
-      resolve(Array.from(db.values()))
-    }, 3000)
+export async function insertOkrToDatabase(okr: ObjectiveType): Promise<ObjectiveType[]> {
+  const okrToDb = {
+    title: okr.title
+  }
+  console.log({okr})
+  const response = await axios.post('http://localhost:3000/objective', JSON.stringify(okrToDb), {
+    headers: {"Content-Type": 'application/json'}
   })
+
+  console.log(response.data)
+  const objectiveId = response.data.id;
+  const keyResultsToDb = okr.keyResults.map((kr) => ({
+    title: kr.title,
+    initialValue: +kr.initialValue,
+    currentValue: +kr.currentValue,
+    finalValue: +kr.finalValue,
+    metric: kr.metric,
+    objectiveId
+  }))
+  const krResponse = await axios.post('http://localhost:3000/key-result', JSON.stringify(keyResultsToDb), {
+    headers: {"Content-Type": 'application/json'}
+  })
+  console.log(krResponse)
 }
 
 export function addKeyResultToDatabase(id: string, kr: KeyResultsType): Promise<ObjectiveType[]> {

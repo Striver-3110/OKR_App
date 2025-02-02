@@ -65,10 +65,10 @@ const AddKrModal = ({setIsOpen,addKeyResult}: AddKrModalProp) => {
         <div className="flex flex-row w-full items-center justify-between">
           <input
             className="w-4/12 py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm"
-            placeholder="Metrics"
-            value={newKr.metrics}
+            placeholder="metric"
+            value={newKr.metric}
             type="text"
-            name={"metrics"}
+            name={"metric"}
             onChange={(e) => handleChange(e)}
 
           />

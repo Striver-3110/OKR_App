@@ -38,7 +38,7 @@ function App() {
   const getAllOkrs = async () => {
     setIsLoading(prev => !prev)
     const responseOkrsFromDatabase = await Toast(getOkrsFromDatabase());
-    console.log(responseOkrsFromDatabase)
+    // console.log(responseOkrsFromDatabase)
     // console.log(responseOkrsFromDatabase)
     setObjectives([...responseOkrsFromDatabase])
     setIsLoading(prev => !prev)
@@ -53,6 +53,7 @@ function App() {
     <div className="w-screen h-screen flex  overflow-y-hidden ">
 
       <OkrInputForm
+        getAllOkrs={getAllOkrs}
         objectiveToBeUpdated={objectiveToBeUpdated}
         setIsLoading={setIsLoading}
         setObjectives={setObjectives}

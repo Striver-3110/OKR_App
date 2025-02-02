@@ -10,9 +10,11 @@ type OKRInputFormProps = {
   setObjectives: React.Dispatch<React.SetStateAction<ObjectiveType[]>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   objectiveToBeUpdated: ObjectiveType | undefined,
+  getAllOkrs: ()=>void
 }
 
 export const OkrInputForm = ({
+                               getAllOkrs,
                                setObjectives,
                                setIsLoading,
                                objectiveToBeUpdated,
@@ -32,12 +34,14 @@ export const OkrInputForm = ({
   const addObjective = async () => {
     setIsLoading(prev => !prev)
 
-    const responseObjectives = await Toast(insertOkrToDatabase({
+    await Toast(insertOkrToDatabase({
       id: "",
       title: newObjective,
       keyResults: keyResults
     }))
-    setObjectives([...responseObjectives])
+    getAllOkrs()
+
+    // setObjectives([...responseObjectives])
     setKeyResults([initialKeyResult])
     setNewObjective("")
     setIsLoading(prev => !prev)
@@ -115,10 +119,10 @@ export const OkrInputForm = ({
             <div className="flex flex-row w-full items-center justify-between">
               <input
                 className="w-4/12 py-3 px-4 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 text-gray-50 bg-gray-600 shadow-sm"
-                placeholder="Metrics"
-                value={keyResult.metrics}
+                placeholder="metric"
+                value={keyResult.metric}
                 type="text"
-                name={"metrics"}
+                name={"metric"}
                 onChange={(e) => handleChange(e, index)}
 
               />

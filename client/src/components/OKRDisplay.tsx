@@ -24,9 +24,9 @@ export const OkrDisplay = ({
     setIsOpen((prev) => !prev)
     setCurrentObjectiveId(id);
   }
-  const handleDeleteOkr = async (id: string) => {
-    console.log(id)
-    await deleteOkrFromDatabase(id);
+  const handleDeleteOkr = async (objective: ObjectiveType) => {
+    // console.log(id)
+    await deleteOkrFromDatabase(objective);
     getAllOkrs();
   }
 
@@ -46,7 +46,7 @@ export const OkrDisplay = ({
                 className="pl-8 py-4 top-0 sticky bg-blue-100 border-b-2 font-semibold text-xl text-gray-800 rounded-t-lg">
                 {objective.title}
               </div>
-              <button onClick={() => handleDeleteOkr(objective.id)}>delete</button>
+              <button onClick={() => handleDeleteOkr(objective)}>delete</button>
               <button onClick={() => handleUpdateOkr(objective)}>update</button>
               <div className="text-lg text-gray-700 font-medium flex justify-between px-10 py-2 ">
                 <div className="">Key Results</div>
@@ -109,10 +109,10 @@ export const OkrDisplay = ({
                               <div className="flex items-center">
                                 <div className="flex-shrink-0">😊</div>
                                 <div className="flex-1 min-w-0 ms-2">
-                                  <p className="text-sm font-medium text-gray-900 truncate">metrics</p>
+                                  <p className="text-sm font-medium text-gray-900 truncate">metric</p>
                                 </div>
                                 <div className="inline-flex items-center text-base font-semibold text-gray-900">
-                                  {keyResult.metrics}
+                                  {keyResult.metric}
                                 </div>
                               </div>
                             </li>
