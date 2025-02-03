@@ -67,7 +67,7 @@ export async function deleteOkrFromDatabase(objective: ObjectiveType): Promise<v
 
 export async function getSuggestions(query: string): Promise<string[]> {
   const response = await axios.post(
-    'https://api-inference.huggingface.co/models/gpt-3.5-turbo', // Use appropriate model for suggestion
+    'https://api-inference.huggingface.co/models/gpt-3.5-turbo',
     {
       messages: [
         { role: 'user', content: `Give me suggestions based on this input: ${query}` },
@@ -76,7 +76,7 @@ export async function getSuggestions(query: string): Promise<string[]> {
     },
     {
       headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_SUGGESTION_API_KEY}`, // Replace with your Hugging Face API key
+        Authorization: `Bearer ${import.meta.env.VITE_SUGGESTION_API_KEY}`,
         'Content-Type': 'application/json',
       },
     }
