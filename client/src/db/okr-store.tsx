@@ -65,6 +65,28 @@ export async function deleteOkrFromDatabase(objective: ObjectiveType): Promise<v
   // })
 }
 
+export async function getSuggestions(query: string): Promise<string[]> {
+  const response = await axios.post(
+    'https://api-inference.huggingface.co/models/gpt-3.5-turbo', // Use appropriate model for suggestion
+    {
+      messages: [
+        { role: 'user', content: `Give me suggestions based on this input: ${query}` },
+      ],
+      max_tokens: 50,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_SUGGESTION_API_KEY}`, // Replace with your Hugging Face API key
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+
+  const suggestions = response.data.choices.map((choice: any) => choice.message.content.trim());
+  console.log(suggestions)
+  return suggestions;
+}
+
 
 export async function insertOkrToDatabase(okr: ObjectiveType): Promise<ObjectiveType[]> {
   const okrToDb = {

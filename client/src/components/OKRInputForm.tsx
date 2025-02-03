@@ -146,7 +146,7 @@ export const OkrInputForm = ({
             className="self-start bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md text-white shadow-md"
             onClick={addObjective}
           >
-            Add Objective
+            {objectiveToBeUpdated ? 'Update' : 'Add'} Objective
           </button>
         </div>
 

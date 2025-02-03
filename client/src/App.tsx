@@ -3,7 +3,7 @@ import {OkrInputForm} from "./components/OKRInputForm.tsx";
 import {KeyResultsType, ObjectiveType} from "./types/OKRTypes.ts";
 import {OkrDisplay} from "./components/OKRDisplay.tsx";
 import AddKrModal from "./components/AddKRModal.tsx";
-import {addKeyResultToDatabase, getOkrsFromDatabase} from "./db/okr-store.tsx"
+import {addKeyResultToDatabase, getOkrsFromDatabase, getSuggestions} from "./db/okr-store.tsx"
 import {Toaster} from 'react-hot-toast';
 import {Toast} from './components/Toast.ts'
 import './App.css'
@@ -46,6 +46,8 @@ function App() {
 
   useEffect(() => {
     getAllOkrs()
+    getSuggestions('sjdfjksd');
+    console.log('sdf')
   }, [])
 
 
