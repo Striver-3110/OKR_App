@@ -83,7 +83,6 @@ export async function getSuggestions(query: string): Promise<string[]> {
   );
 
   const suggestions = response.data.choices.map((choice: any) => choice.message.content.trim());
-  console.log(suggestions)
   return suggestions;
 }
 
