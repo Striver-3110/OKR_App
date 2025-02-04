@@ -42,14 +42,7 @@ export async function insertOkrToDatabase(objective: ObjectiveType):Promise<void
 }
 
 export function addKeyResultToDatabase(id: string, kr: KeyResultsType): Promise<ObjectiveType[]> {
-  // set timeout here
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     db.get(id)?.keyResults.push(kr);
-  //     console.log(db)
-  //     resolve(Array.from(db.values()))
-  //   }, 3000)
-  // })
+
 }
 
 export async function getOkrsFromDatabase(): Promise<ObjectiveType[]> {
