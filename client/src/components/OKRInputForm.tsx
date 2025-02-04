@@ -10,12 +10,14 @@ type OKRInputFormProps = {
   setObjectives: React.Dispatch<React.SetStateAction<ObjectiveType[]>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   objectiveToBeUpdated: ObjectiveType | undefined,
+  getAllOkrs: () => void,
 }
 
 export const OkrInputForm = ({
                                setObjectives,
                                setIsLoading,
                                objectiveToBeUpdated,
+                               getAllOkrs
                              }: OKRInputFormProps) => {
   const [keyResults, setKeyResults] = useState<KeyResultsType[]>([initialKeyResult]);
 
@@ -32,12 +34,13 @@ export const OkrInputForm = ({
   const addObjective = async () => {
     setIsLoading(prev => !prev)
 
-    const responseObjectives = await Toast(insertOkrToDatabase({
+    await Toast(insertOkrToDatabase({
       id: "",
       title: newObjective,
       keyResults: keyResults
     }))
-    setObjectives([...responseObjectives])
+
+    getAllOkrs();
     setKeyResults([initialKeyResult])
     setNewObjective("")
     setIsLoading(prev => !prev)

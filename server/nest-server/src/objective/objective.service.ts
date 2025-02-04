@@ -10,7 +10,12 @@ export class ObjectiveService {
   constructor(private readonly prismaService: PrismaService) {}
 
   create(objective: CreateObjectiveDto) {
-    return this.prismaService.objective.create({ data: objective });
+    console.log(objective);
+    return this.prismaService.objective.create({
+      data: {
+        title: objective.title,
+      },
+    });
   }
 
   getAll() {
