@@ -16,6 +16,7 @@ export class KeyResultController {
 
   @Post('/')
   createAll(@Body() keyResults: CreateKeyResultDto[]) {
+    console.log(keyResults);
     return this.keyResultService.createAll(keyResults);
   }
 
@@ -31,6 +32,7 @@ export class KeyResultController {
 
   @Delete('/')
   delete(@Body('id') keyResultId: string) {
+    console.log({ keyResultId });
     return this.keyResultService.delete(keyResultId);
   }
 }

@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 import { KeyResultService } from './key-result.service';
 
-describe('KeyResultService', () => {
+describe(() => {
   let prismaService: DeepMockProxy<PrismaService>;
   let keyResultService: KeyResultService;
 
@@ -129,4 +129,4 @@ describe('KeyResultService', () => {
       });
     });
   });
-});
+}, 'KeyResultService');

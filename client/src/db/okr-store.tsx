@@ -1,81 +1,55 @@
 import {KeyResultsType, ObjectiveType} from "../types/OKRTypes.ts";
-import {v4 as uuid} from 'uuid'
 import axios from "axios";
 
-const initialOkrs: ObjectiveType[] = [
-  {
-    id: uuid(),
-    title: "obj1",
-    keyResults: [
-      {
-        title: "asdsad",
-        initialValue: 0,
-        currentValue: 0,
-        finalValue: 0,
-        metrics: ""
-      },
-      {
-        title: "ewrewrwe",
-        initialValue: 0,
-        currentValue: 0,
-        finalValue: 0,
-        metrics: ""
-      },
-      {
-        title: "asdasdasd",
-        initialValue: 0,
-        currentValue: 0,
-        finalValue: 0,
-        metrics: ""
-      },
-      {
-        title: "sadasdas",
-        initialValue: 0,
-        currentValue: 0,
-        finalValue: 0,
-        metrics: ""
-      },
-    ]
-  }
-]
 
-const db = new Map<string, ObjectiveType>();
+export async function deleteOkrFromDatabase(objective: ObjectiveType): Promise<void> {
 
-initialOkrs.forEach((objective: ObjectiveType) => {
-  db.set(objective.id, objective)
-})
-
-export function deleteOkrFromDatabase(id: string): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      db.delete(id)
-      console.log(db)
-      resolve()
-    }, 3000)
+  await Promise.all(
+    objective.keyResults.map((kr) => {
+      axios.delete('http://localhost:3000/key-result', {
+        data: {id: kr.id}
+      })
+    })
+  )
+  await axios.delete('http://localhost:3000/objective', {
+    data: {objectiveId: objective.id}
   })
 }
 
-
-export function insertOkrToDatabase(okr: ObjectiveType): Promise<ObjectiveType[]> {
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const id = uuid()
-      db.set(id, {...okr, id: id})
-      resolve(Array.from(db.values()))
-    }, 3000)
+export async function deleteKeyResultFromDatabase(id: string) {
+  await axios.delete('http://localhost:3000/key-result', {
+    data: {
+      id: id
+    }
   })
+}
+
+export async function insertOkrToDatabase(objective: ObjectiveType):Promise<void> {
+  const objectiveResponse = await axios.post('http://localhost:3000/objective', {title: objective.title})
+  console.log(objectiveResponse)
+  const objectiveId = objectiveResponse.data.id;
+
+  const keyResultToDatabase = objective.keyResults.map((kr) => ({
+    objectiveId: objectiveId,
+    title: kr.title,
+    initialValue: kr.initialValue,
+    currentValue: kr.currentValue,
+    finalValue: kr.finalValue,
+    metric: kr.metrics
+  }))
+
+  await axios.post('http://localhost:3000/key-result', keyResultToDatabase)
 }
 
 export function addKeyResultToDatabase(id: string, kr: KeyResultsType): Promise<ObjectiveType[]> {
   // set timeout here
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      db.get(id)?.keyResults.push(kr);
-      console.log(db)
-      resolve(Array.from(db.values()))
-    }, 3000)
-  })
+  // return new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     db.get(id)?.keyResults.push(kr);
+  //     console.log(db)
+  //     resolve(Array.from(db.values()))
+  //   }, 3000)
+  // })
 }
 
 export async function getOkrsFromDatabase(): Promise<ObjectiveType[]> {
@@ -98,15 +72,4 @@ export async function getOkrsFromDatabase(): Promise<ObjectiveType[]> {
       }))
   }))
   return objectives
-  // console.log('me log ho raha hu')
-  // return new Promise((resolve)=>{
-  //   setTimeout(()=>{
-  //     resolve(Array.from(db.values()).filter((obj) => {
-  //       return {
-  //         title: obj.title,
-  //         keyResults: obj.keyResults
-  //       }
-  //     }))
-  //   },3000)
-  // })
 }
