@@ -10,7 +10,7 @@ export class ObjectiveService {
   constructor(private readonly prismaService: PrismaService) {}
 
   create(objective: CreateObjectiveDto) {
-    console.log(objective);
+    // console.log(objective);
     return this.prismaService.objective.create({
       data: {
         title: objective.title,
@@ -26,8 +26,15 @@ export class ObjectiveService {
     });
   }
 
+  put(id: string, title: string) {
+    return this.prismaService.objective.update({
+      data: { title },
+      where: { id },
+    });
+  }
+
   delete(objectiveId: string) {
-    console.log(objectiveId);
+    // console.log(objectiveId);
     return this.prismaService.objective.delete({
       where: {
         id: objectiveId,
