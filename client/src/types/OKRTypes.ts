@@ -5,7 +5,7 @@ type KeyResultsType = {
   initialValue: number,
   finalValue: number,
   currentValue: number,
-  metrics: string
+  metric: string
 }
 
 type ObjectiveType = {

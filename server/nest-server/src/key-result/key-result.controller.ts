@@ -1,5 +1,17 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { KeyResultService } from './key-result.service';
+
+export type UpdateKeyResultDto = CreateKeyResultDto & {
+  id: string;
+};
 
 class CreateKeyResultDto {
   title: string;
@@ -16,7 +28,7 @@ export class KeyResultController {
 
   @Post('/')
   createAll(@Body() keyResults: CreateKeyResultDto[]) {
-    console.log(keyResults);
+    // console.log(keyResults);
     return this.keyResultService.createAll(keyResults);
   }
 
@@ -30,9 +42,25 @@ export class KeyResultController {
     return this.keyResultService.findAll();
   }
 
+  @Put('/')
+  updateKeyResult(@Body() keyResult: UpdateKeyResultDto) {
+    console.log(keyResult);
+    return this.keyResultService.updateKeyResult(keyResult);
+  }
+
   @Delete('/')
   delete(@Body('id') keyResultId: string) {
-    console.log({ keyResultId });
     return this.keyResultService.delete(keyResultId);
+  }
+
+  // @Get('/:keyResultId/progress')
+  // progress(@Param('keyResultId') keyResultId: string) {
+  //   console.log(keyResultId);
+  //   throw new Error('Method not implemented!');
+  // }
+
+  @Get('/:keyResultId/progress')
+  progress(@Param('keyResultId') id: string) {
+    return this.keyResultService.progress(id);
   }
 }

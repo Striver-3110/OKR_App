@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 import { KeyResultService } from './key-result.service';
 
-describe(() => {
+describe('KeyResultService', () => {
   let prismaService: DeepMockProxy<PrismaService>;
   let keyResultService: KeyResultService;
 
@@ -129,4 +129,21 @@ describe(() => {
       });
     });
   });
-}, 'KeyResultService');
+
+  describe('progress()', () => {
+    it('should return progress in percentage', async () => {
+      prismaService.keyResult.findUnique.mockResolvedValue({
+        ...mockKeyResults[0],
+        id: '1',
+      });
+
+      const keyResult = await keyResultService.findOne('1');
+      // TODO: remove !
+      const response = await keyResultService.progress(keyResult.id);
+
+      expect(response.percentage).toEqual(
+        (keyResult.currentValue * 100) / keyResult.finalValue,
+      );
+    });
+  });
+});

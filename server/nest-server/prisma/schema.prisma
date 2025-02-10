@@ -7,21 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model Objective {
-  id    String     @id @default(uuid())
-  title String
+  id         String      @id @default(uuid())
+  title      String
   key_result KeyResult[]
 }
 
 model KeyResult {
-  id String     @id @default(uuid())
-  objectiveId String
-  title String
+  id           String    @id @default(uuid())
+  title        String
   initialValue Int
   currentValue Int
-  finalValue Int
-  metric String
-  objective Objective @relation(fields: [objectiveId], references: [id])
+  finalValue   Int
+  metric       String
+  objective    Objective @relation(fields: [objectiveId], references: [id])
+  objectiveId  String
 }
-
-
