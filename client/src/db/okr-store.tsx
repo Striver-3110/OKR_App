@@ -24,7 +24,7 @@ export async function deleteKeyResultFromDatabase(id: string) {
   })
 }
 
-export async function insertOkrToDatabase(objective: ObjectiveType):Promise<void> {
+export async function insertOkrToDatabase(objective: ObjectiveType): Promise<void> {
   const objectiveResponse = await axios.post('http://localhost:3000/objective', {title: objective.title})
   console.log(objectiveResponse)
   const objectiveId = objectiveResponse.data.id;
@@ -41,8 +41,15 @@ export async function insertOkrToDatabase(objective: ObjectiveType):Promise<void
   await axios.post('http://localhost:3000/key-result', keyResultToDatabase)
 }
 
-export function addKeyResultToDatabase(id: string, kr: KeyResultsType): Promise<ObjectiveType[]> {
-
+export async function addKeyResultToDatabase(objectiveId: string, kr: KeyResultsType): Promise<void> {
+  await axios.post('http://localhost:3000/key-result', {
+    title: kr.title,
+    initialValue: Number(kr.initialValue),
+    currentValue: Number(kr.currentValue),
+    finalValue: Number(kr.finalValue),
+    metric: kr.metrics,
+    objectiveId: objectiveId
+  })
 }
 
 export async function getOkrsFromDatabase(): Promise<ObjectiveType[]> {

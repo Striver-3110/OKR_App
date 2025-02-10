@@ -1,4 +1,4 @@
-import {useEffect, useState, useOptimistic} from "react";
+import {useEffect, useState} from "react";
 import {OkrInputForm} from "./components/OKRInputForm.tsx";
 import {KeyResultsType, ObjectiveType} from "./types/OKRTypes.ts";
 import {OkrDisplay} from "./components/OKRDisplay.tsx";
@@ -12,7 +12,6 @@ import './App.css'
 function App() {
 
   const [objectives, setObjectives] = useState<ObjectiveType[]>([]);
-  const [optimisticObjectives, setOptimisticObjectives] = useState(objectives);
   const [currentObjectiveId, setCurrentObjectiveId] = useState<string>("")
   const [objectiveToBeUpdated, setObjectiveToBeUpdated] = useState<ObjectiveType | undefined>(undefined)
 
