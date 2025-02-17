@@ -53,10 +53,10 @@ function App() {
     getAllOkrs()
   }, [])
   return (
-    <div className="w-full min-h-screen ">
+    <div className="w-full min-h-screen -z-10">
       <div className="w-full min-h-screen ">
         {/* Navigation */}
-        <nav className="sticky top-0 z-1 bg-gray-800 text-white p-4 flex justify-between items-center">
+        <nav className="sticky top-0 z-10 bg-gray-800 text-white p-4 flex justify-between items-center">
 
           <div className="text-2xl flex  font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
             <Navbar/>
@@ -80,7 +80,7 @@ function App() {
             </Link>
           </div>
         </nav>
-        <div className="flex  ">
+        <div className="flex  -z-1">
           <div className="w-full">
           <Routes>
             <Route
