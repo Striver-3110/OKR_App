@@ -15,10 +15,25 @@ export class KeyResultService {
     return this.prismaService.keyResult.findMany();
   }
 
-  findOne(id: string) {
-    return this.prismaService.keyResult.findUnique({
+  async findOne(id: string) {
+    const keyResult = await this.prismaService.keyResult.findUnique({
       where: {
         id: id,
+      },
+    });
+    if (!keyResult) throw new Error('key Result Not found');
+    return keyResult;
+  }
+
+  updateKeyResult(keyResult: UpdateKeyResultDto) {
+    return this.prismaService.keyResult.update({
+      where: { id: keyResult.id },
+      data: {
+        title: keyResult.title,
+        initialValue: keyResult.initialValue,
+        currentValue: keyResult.currentValue,
+        finalValue: keyResult.finalValue,
+        metric: keyResult.metric,
       },
     });
   }
@@ -50,5 +65,12 @@ export class KeyResultService {
         id: keyResultId,
       },
     });
+  }
+
+  async progress(keyResultId: string): Promise<{ percentage: number }> {
+    const keyResult = await this.findOne(keyResultId);
+    const percentage = (keyResult.currentValue / keyResult.finalValue) * 100;
+    const roundedPercentage = parseFloat(percentage.toFixed(2));
+    return { percentage: roundedPercentage };
   }
 }

@@ -112,5 +112,24 @@ describe('KeyResultController', () => {
       const response = await controller.delete(mockKeyResultId);
       expect(response).toEqual({ ...mockKeyResults[0], id: mockKeyResultId });
     });
+
+    it('should return progress in percentage', async () => {
+      // given
+      const keyResult = {
+        id: 'FAKE_KEY_RESULT_ID',
+        title: 'Dummy KR',
+        initialValue: 0,
+        currentValue: 2,
+        finalValue: 10,
+        metric: 'number',
+      };
+       service.progress.mockReturnValue({ percentage: 20 });
+      //when
+      const response = await controller.progress(keyResult.id);
+      //then
+      // console.log(response);
+      expect(service.progress).toHaveBeenCalledWith(keyResult.id);
+      expect(response.percentage).toEqual(20);
+    });
   });
 });

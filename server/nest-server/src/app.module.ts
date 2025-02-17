@@ -4,6 +4,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { KeyResultModule } from './key-result/key-result.module';
 import { GenAiModule } from './gen-ai/gen-ai.module';
 import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './user/user.module';
 
 @Module({
   controllers: [],
@@ -13,6 +14,8 @@ import { ConfigModule } from '@nestjs/config';
     PrismaModule,
     KeyResultModule,
     GenAiModule,
+    UserModule,
+
   ],
   providers: [],
 })

@@ -11,7 +11,6 @@ export class ObjectiveController {
 
   @Post('/')
   create(@Body() objective: CreateObjectiveDto) {
-    // console.log(objective);
     return this.objectiveService.create(objective);
   }
 
@@ -22,12 +21,10 @@ export class ObjectiveController {
 
   @Delete('/')
   delete(@Body('objectiveId') objectiveId: string) {
-    // console.log(objectiveId);
     return this.objectiveService.delete(objectiveId);
   }
 
   @Put('/')
-  put(@Body('id') id: string, @Body('title') title: string) {
     return this.objectiveService.put(id, title);
   }
 }

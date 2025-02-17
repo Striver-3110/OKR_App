@@ -1,3 +1,4 @@
+
 import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { KeyResultService } from './key-result.service';
 
@@ -20,7 +21,7 @@ export class KeyResultController {
 
   @Post('/')
   createAll(@Body() keyResults: CreateKeyResultDto[]) {
-    console.log(keyResults);
+    // console.log(keyResults);
     return this.keyResultService.createAll(keyResults);
   }
 
@@ -42,7 +43,13 @@ export class KeyResultController {
 
   @Delete('/')
   delete(@Body('id') keyResultId: string) {
-    // console.log({ keyResultId });
+
     return this.keyResultService.delete(keyResultId);
+  }
+
+
+  @Get('/:keyResultId/progress')
+  progress(@Param('keyResultId') id: string) {
+    return this.keyResultService.progress(id);
   }
 }
