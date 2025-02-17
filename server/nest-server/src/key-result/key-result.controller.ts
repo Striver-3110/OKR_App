@@ -1,12 +1,5 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+
+import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { KeyResultService } from './key-result.service';
 
 export type UpdateKeyResultDto = CreateKeyResultDto & {
@@ -50,14 +43,10 @@ export class KeyResultController {
 
   @Delete('/')
   delete(@Body('id') keyResultId: string) {
+
     return this.keyResultService.delete(keyResultId);
   }
 
-  // @Get('/:keyResultId/progress')
-  // progress(@Param('keyResultId') keyResultId: string) {
-  //   console.log(keyResultId);
-  //   throw new Error('Method not implemented!');
-  // }
 
   @Get('/:keyResultId/progress')
   progress(@Param('keyResultId') id: string) {

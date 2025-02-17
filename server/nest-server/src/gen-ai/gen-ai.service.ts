@@ -42,7 +42,7 @@ export class GenAiService {
         role: 'system',
         content: `###CONTEXT###:
      ###INSTRUCTIONS###:
-      - Generate most relevant key results based on the objective provided, 
+      - Generate most relevant 2-3 key results based on the objective provided, 
       - Also modify the objective in meaningful manner, 
       - If applicable, Ensure that all answers are factually-based on the given input.
     `,
