@@ -1,10 +1,9 @@
 import React from "react";
-import {KeyResultsType} from "../../types/OKRTypes";
 
 type ObjectiveInputProp = {
   newObjective: string,
   setNewObjective: React.Dispatch<React.SetStateAction<string>>,
-  handleGenerateKeyResults: () => KeyResultsType[]
+  handleGenerateKeyResults: () => void
 }
 
 export const ObjectiveInput = ({newObjective, setNewObjective, handleGenerateKeyResults}: ObjectiveInputProp ) => {
