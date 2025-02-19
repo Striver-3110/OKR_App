@@ -1,5 +1,12 @@
-
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { KeyResultService } from './key-result.service';
 
 export type UpdateKeyResultDto = CreateKeyResultDto & {
@@ -43,7 +50,6 @@ export class KeyResultController {
 
   @Delete('/')
   delete(@Body('id') keyResultId: string) {
-
     return this.keyResultService.delete(keyResultId);
   }
 

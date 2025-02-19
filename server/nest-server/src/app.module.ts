@@ -15,7 +15,6 @@ import { UserModule } from './user/user.module';
     KeyResultModule,
     GenAiModule,
     UserModule,
-
   ],
   providers: [],
 })
