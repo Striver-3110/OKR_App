@@ -28,7 +28,6 @@ export class ObjectiveController {
 
   @Put('/')
   put(@Body('id') id: string, @Body('title') title: string) {
-    console.log(id, title);
     return this.objectiveService.put(id, title);
   }
 }
