@@ -9,7 +9,7 @@ describe('keyResult(Integration test)', () => {
   let app: INestApplication;
   let keyResultService: KeyResultService;
   let prismaService: PrismaService;
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module = await Test.createTestingModule({
       imports: [AppModule],
       providers: [PrismaService],
@@ -21,8 +21,40 @@ describe('keyResult(Integration test)', () => {
     prismaService = app.get<PrismaService>(PrismaService);
   });
 
+  jest.setTimeout(30000);
+
   afterAll(async () => {
     await app.close();
+  });
+
+  describe('@Put /key-result', () => {
+    it('should should updated key result', async () => {
+      // given
+      const objective = await prismaService.objective.create({
+        data: {
+          title: 'obj1',
+        },
+      });
+      const keyResult = await prismaService.keyResult.create({
+        data: {
+          objectiveId: objective.id,
+          title: 'title 1',
+          initialValue: 10,
+          currentValue: 50,
+          finalValue: 100,
+          metric: '%',
+        },
+      });
+      // when
+      const response = await request(app.getHttpServer())
+        .put('/key-result')
+        .send({ keyResult: keyResult, title: 'title 2' })
+        .expect(200);
+
+      console.log(response);
+      // then
+      expect(response.body.title).toEqual('title 2');
+    });
   });
 
   // describe('@Get /key-results/', () => {
