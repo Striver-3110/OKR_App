@@ -38,19 +38,6 @@ export class KeyResultService {
     });
   }
 
-  updateKeyResult(keyResult: UpdateKeyResultDto) {
-    return this.prismaService.keyResult.update({
-      where: { id: keyResult.id },
-      data: {
-        title: keyResult.title,
-        initialValue: keyResult.initialValue,
-        currentValue: keyResult.currentValue,
-        finalValue: keyResult.finalValue,
-        metric: keyResult.metric,
-      },
-    });
-  }
-
   findByObjectiveId(objectiveId: string) {
     return this.prismaService.keyResult.findMany({
       where: {
